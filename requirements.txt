@@ -2,4 +2,3 @@ Flask
 numpy
 matplotlib
 scikit-learn
-flask-session

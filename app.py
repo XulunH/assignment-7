@@ -314,34 +314,25 @@ def confidence_interval():
     plot4_path = "static/plot4.png"
     plt.figure(figsize=(10, 6))
 
-    # Plot individual estimates as gray points
-    plt.scatter(range(len(estimates)), estimates, color='gray', label='Simulated Estimates')
+    # Plot individual estimates as gray points at y=1
+    plt.scatter(estimates, np.ones_like(estimates), color='gray', alpha=0.5, label='Simulated Estimates')
 
     # Plot mean estimate
     mean_color = 'green' if includes_true else 'red'
-    plt.scatter(
-        len(estimates) / 2, mean_estimate, color=mean_color, s=100, label='Mean Estimate'
-    )
+    plt.scatter(mean_estimate, 1, color=mean_color, s=100, label='Mean Estimate')
 
-    # Plot confidence interval
-    plt.hlines(
-        y=[ci_lower, ci_upper],
-        xmin=0,
-        xmax=len(estimates),
-        colors='blue',
-        linestyles='dashed',
-        label='Confidence Interval',
-    )
+    # Plot confidence interval as a horizontal line
+    plt.hlines(y=1, xmin=ci_lower, xmax=ci_upper, colors='blue', linestyles='solid', linewidth=2, label='Confidence Interval')
 
-    # Plot true parameter value
-    plt.axhline(
-        y=true_param, color='black', linestyle='solid', linewidth=2, label='True Parameter Value'
-    )
+    # Plot true parameter value as a vertical line
+    plt.axvline(x=true_param, color='black', linestyle='dashed', linewidth=2, label='True Parameter Value')
 
-    plt.xlabel('Simulation Index')
-    plt.ylabel(parameter.capitalize())
+    plt.ylim(0.9, 1.1)  # Narrow y-axis to focus on the horizontal line
+    plt.yticks([])  # Remove y-axis ticks
+    plt.xlabel(parameter.capitalize())
     plt.title(f'Confidence Interval for {parameter.capitalize()} at {confidence_level}% Level')
     plt.legend()
+    plt.tight_layout()
     plt.savefig(plot4_path)
     plt.close()
 
@@ -365,6 +356,8 @@ def confidence_interval():
         beta1=beta1,
         S=S,
     )
+
+
 
 
 if __name__ == "__main__":
